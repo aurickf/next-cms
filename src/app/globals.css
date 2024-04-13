@@ -2,21 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-}
+} */
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
-body {
+/* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -24,6 +24,35 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+} */
+@layer base {
+  h1 {
+    @apply text-4xl;
+  }
+  h2 {
+    @apply text-3xl;
+  }
+  h3 {
+    @apply text-2xl;
+  }
+}
+
+@layer components {
+  .custom-card {
+    @apply bg-blue-50 border border-blue-500 p-8 rounded shadow;
+  }
+  .footer {
+    @apply absolute bottom-0 w-full bg-blue-100 text-center text-blue-800 border-t border-blue-500 z-50;
+  }
+  .page-header {
+    @apply h-24 w-full text-blue-700 text-3xl text-right p-4 bg-blue-100 border-b border-blue-500;
+  }
+  .sidebar {
+    @apply text-blue-900 h-dvh;
+  }
+  .sidebar-menu-item {
+    @apply text-blue-900;
+  }
 }
 
 @layer utilities {
