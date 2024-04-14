@@ -15,8 +15,7 @@ const UsersPage = () => {
   });
 
   function saveHandler() {
-    //@ts-ignore
-    document.getElementById("actionModal").close();
+    setAction({ type: "", isOpen: false, selectedRow: null });
   }
 
   function closeHandler() {
