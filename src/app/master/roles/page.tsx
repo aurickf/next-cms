@@ -23,7 +23,7 @@ const RolePage = () => {
       case "edit":
         return {
           title: "Edit Role",
-          content: "Update current role role",
+          content: "Update current role",
         };
       case "delete":
         return {
