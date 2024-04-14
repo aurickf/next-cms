@@ -14,7 +14,7 @@ const InputText = (props: IInputTextProps) => {
       {props?.label}
       <input
         type="text"
-        className="grow text-right text-blue-400"
+        className={`grow text-right ${props.disabled ? "text-gray-400" : "text-blue-400"} `}
         placeholder={props?.placeholder}
         value={props?.value}
         // @ts-ignore

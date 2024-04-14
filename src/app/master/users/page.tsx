@@ -1,17 +1,31 @@
 "use client";
 
+import Dropdown from "@/app/components/Dropdown";
 import InputText from "@/app/components/InputText";
 import Modal from "@/app/components/Modal";
-import { users } from "@/app/utils/data";
-import { IUser } from "@/app/utils/dataType";
+import { roles, users } from "@/app/utils/data";
+import { IRoleAction, IUser } from "@/app/utils/dataType";
 import React, { useState } from "react";
 
 const UsersPage = () => {
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [action, setAction] = useState<IRoleAction>({
+    type: "",
+    isOpen: false,
+    selectedRow: null,
+  });
 
   function saveHandler() {
     //@ts-ignore
     document.getElementById("actionModal").close();
+  }
+
+  function closeHandler() {
+    setAction({ type: "", isOpen: false, selectedRow: null });
+  }
+
+  /* Type guard */
+  function isUser(obj: any): obj is IUser {
+    if (obj) return "username" in obj;
   }
 
   return (
@@ -20,17 +34,34 @@ const UsersPage = () => {
         id="actionModal"
         title="Edit User"
         content="Update existing user info"
+        isOpen={action.isOpen}
+        closeHandler={closeHandler}
       >
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
             <InputText
               label="Username"
               disabled
-              value={selectedUser?.username}
+              value={
+                isUser(action?.selectedRow) && action?.selectedRow?.username
+              }
             />
-            <InputText label="First name" value={selectedUser?.firstName} />
-            <InputText label="Last name" value={selectedUser?.lastName} />
-            {/* Dropdown */}
+            <InputText
+              label="First name"
+              value={
+                isUser(action?.selectedRow) && action?.selectedRow?.firstName
+              }
+            />
+            <InputText
+              label="Last name"
+              value={
+                isUser(action?.selectedRow) && action?.selectedRow?.lastName
+              }
+            />
+            <Dropdown
+              options={roles}
+              selectedRole={action?.selectedRow?.roleName}
+            />
           </div>
           <div className="text-right">
             <button
@@ -65,9 +96,7 @@ const UsersPage = () => {
                 <button
                   className="btn btn-outline btn-warning"
                   onClick={() => {
-                    // @ts-ignore
-                    document.getElementById("actionModal").showModal();
-                    setSelectedUser(o);
+                    setAction({ ...action, isOpen: true, selectedRow: o });
                   }}
                 >
                   Edit

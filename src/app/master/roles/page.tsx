@@ -9,7 +9,8 @@ import { useState } from "react";
 const RolePage = () => {
   const [action, setAction] = useState<IRoleAction>({
     type: "",
-    selectedRole: null,
+    isOpen: false,
+    selectedRow: null,
   });
 
   function modalInfo() {
@@ -36,27 +37,34 @@ const RolePage = () => {
   }
 
   function saveHandler() {
-    //@ts-ignore
-    document.getElementById("actionModal").close();
+    closeHandler();
   }
 
   function deleteHandler() {
-    //@ts-ignore
-    document.getElementById("actionModal").close();
+    closeHandler();
+  }
+
+  function closeHandler() {
+    setAction({ type: "", isOpen: false, selectedRow: null });
   }
 
   return (
     <div className="overflow-x-auto">
-      <Modal id="actionModal" {...modalInfo()}>
+      <Modal
+        id="actionModal"
+        isOpen={action.isOpen}
+        closeHandler={closeHandler}
+        {...modalInfo()}
+      >
         <div className="flex flex-col flex-wrap gap-2">
           <div>
             <InputText
               label="Role Name"
               placeholder="Name of the role"
-              value={action?.selectedRole?.roleName}
+              value={action?.selectedRow?.roleName}
               disabled={action.type !== "edit"}
               onChange={(e) =>
-                setAction({ ...action, selectedRole: e.target.value })
+                setAction({ ...action, selectedRow: e.target.value })
               }
             />
           </div>
@@ -102,9 +110,7 @@ const RolePage = () => {
                   className="btn btn-outline btn-info"
                   disabled={i == 0}
                   onClick={() => {
-                    // @ts-ignore
-                    document.getElementById("actionModal").showModal();
-                    setAction({ type: "view", selectedRole: o });
+                    setAction({ type: "view", isOpen: true, selectedRow: o });
                   }}
                 >
                   View
@@ -113,9 +119,7 @@ const RolePage = () => {
                   className="btn btn-outline btn-warning"
                   disabled={i == 0}
                   onClick={() => {
-                    // @ts-ignore
-                    document.getElementById("actionModal").showModal();
-                    setAction({ type: "edit", selectedRole: o });
+                    setAction({ type: "edit", isOpen: true, selectedRow: o });
                   }}
                 >
                   Edit
@@ -124,9 +128,11 @@ const RolePage = () => {
                   className="btn btn-outline btn-error"
                   disabled={i == 0}
                   onClick={() => {
-                    // @ts-ignore
-                    document.getElementById("actionModal").showModal();
-                    setAction({ type: "delete", selectedRole: o });
+                    setAction({
+                      type: "delete",
+                      isOpen: true,
+                      selectedRow: o,
+                    });
                   }}
                 >
                   Delete
