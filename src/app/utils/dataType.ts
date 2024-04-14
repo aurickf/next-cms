@@ -1,9 +1,17 @@
-import { ReactNode } from "react";
-
-export interface ICustomCard {
-  children: ReactNode;
+export interface IRole {
+  roleName: string;
+  numberOfUsers: number;
+  numberOfAccessRights: number;
 }
 
-export interface ICMSHeader {
-  children: ReactNode;
+export interface IUser {
+  username: string;
+  firstName: string;
+  lastName: string;
+  roleName: string;
+}
+
+export interface IRoleAction {
+  type: string;
+  selectedRole?: IRole;
 }
